@@ -752,7 +752,10 @@ const RelationModalWithContext = ({
 
   React.useLayoutEffect(() => {
     setTextValue('');
-  }, [fieldValue]);
+    // The input text is cleared (e.g. after a selection), so the server-side search must be cleared too,
+    // otherwise reopening the dropdown would still filter on the previous text and show no remaining relations.
+    setSearchParams((s) => (s._q === '' && s.page === 1 ? s : { ...s, _q: '', page: 1 }));
+  }, [fieldValue, setSearchParams]);
 
   const handleSearch = async (search: string) => {
     setSearchParams((s) => ({ ...s, _q: search, page: 1 }));

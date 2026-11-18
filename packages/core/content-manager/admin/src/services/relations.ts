@@ -126,6 +126,10 @@ const relationsApi = contentManagerApi.injectEndpoints({
           endpointName,
           model: queryArgs.model,
           targetField: queryArgs.targetField,
+          // The source document (or component) and its locale/status scope the results,
+          // so they must be part of the cache key, otherwise two fields would share results.
+          id: queryArgs.params?.id,
+          locale: queryArgs.params?.locale,
           _q: queryArgs.params?._q,
           idsToOmit: queryArgs.params?.idsToOmit,
           idsToInclude: queryArgs.params?.idsToInclude,
